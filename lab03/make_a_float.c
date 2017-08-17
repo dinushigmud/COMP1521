@@ -76,9 +76,23 @@ Union32 getBits(char *sign, char *exp, char *frac)
 // return a pointer to buf
 char *showBits(Word val, char *buf)
 {
-   // this line is just to keep gcc happy
-   // delete it when you have implemented the function
-   buf[0] = '\0';
+
+	unsigned int mask = 1U << 31; 
+	int i = 0; 
+	int k = 0; 
+	while(i < val){
+		mask = 1U << 31;
+		k = 0; 
+		while(k < val){
+			if((buf[i] & mask) != 0){
+				printf("1");
+			} else {
+				printf("0");
+			}
+			mask = mask >> 1;
+			k++;
+		}
+   }
    return buf;
 }
 
