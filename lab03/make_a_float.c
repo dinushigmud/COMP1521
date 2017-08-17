@@ -89,21 +89,23 @@ void store_exp(char *exp, Union32 new){
     unsigned int exp_val = atoi(exp);
     new.bits.exp = exp_val;
 
-	unsigned int mask = 1U << 7; 
+	unsigned int mask = 1U; 
 	int k = 0; 
 	while(k < 8){
+    printf ("val = %u , mask = %u\n", exp_val, mask);
 		if((exp_val & mask) != 0){
 			new.bits.exp = 1;
 			printf("1");
 		} else {
+			new.bits.exp = 0;
 			printf("0");
 		}
-		mask = mask >> 1;
-        exp_val = exp_val >> 1;
-		new.bits.exp = new.bits.exp >> 1;
+		mask = mask << 1;
+		//new.bits.exp = new.bits.exp << 1;
 		k++;
 	}
 	printf("\n");
+
 }
 
 void store_frac(char *frac, Union32 new){
@@ -112,7 +114,7 @@ void store_frac(char *frac, Union32 new){
 
 	unsigned int mask = 1U << 7; 
 	int k = 0; 
-	while(k < 8){
+	while(k < 22){
 		if((frac_val & mask) != 0){
 			new.bits.frac = 1;
 			printf("1");
@@ -127,6 +129,7 @@ void store_frac(char *frac, Union32 new){
 	printf("\n");
     
 }
+
 // convert three bit-strings (already checked)
 // into the components of a struct _float
 Union32 getBits(char *sign, char *exp, char *frac)
