@@ -53,7 +53,7 @@ int main(int argc, char **argv)
    return 0;
 }
 
-void print_float (Union32 print_f){
+/*void print_float (Union32 print_f){
     unsigned int print_val = print_f.bits.exp;
     int i =0;
 
@@ -77,7 +77,7 @@ void print_float_frac(Union32 print_f){
     }
     printf("\n");
 
-}
+}*/
 
 void store_sign(char *sign, Union32 new){
     unsigned int sign_val = atoi(sign);
@@ -89,18 +89,44 @@ void store_exp(char *exp, Union32 new){
     unsigned int exp_val = atoi(exp);
     new.bits.exp = exp_val;
 
-
-    printf("new.bits.exp = %u\n", new.bits.exp);
-    print_float(new);
+	unsigned int mask = 1U << 7; 
+	int k = 0; 
+	while(k < 8){
+		if((exp_val & mask) != 0){
+			new.bits.exp = 1;
+			printf("1");
+		} else {
+			printf("0");
+		}
+		mask = mask >> 1;
+        exp_val = exp_val >> 1;
+		new.bits.exp = new.bits.exp >> 1;
+		k++;
+	}
+	printf("\n");
 }
 
 void store_frac(char *frac, Union32 new){
-    unsigned long frac_val = atoi(frac);
+    unsigned int frac_val = atoi(frac);
     new.bits.frac = frac_val;
-    printf("new.bits.frac");
-    print_float_frac(new);
-}
 
+	unsigned int mask = 1U << 7; 
+	int k = 0; 
+	while(k < 8){
+		if((frac_val & mask) != 0){
+			new.bits.frac = 1;
+			printf("1");
+		} else {
+			printf("0");
+		}
+		mask = mask >> 1;
+        frac_val = frac_val >> 1;
+		new.bits.frac = new.bits.frac >> 1;
+		k++;
+	}
+	printf("\n");
+    
+}
 // convert three bit-strings (already checked)
 // into the components of a struct _float
 Union32 getBits(char *sign, char *exp, char *frac)
