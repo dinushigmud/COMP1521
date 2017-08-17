@@ -74,9 +74,7 @@ Union32 getBits(char *sign, char *exp, char *frac)
 // of '0' and '1' characters in an array buf
 // assume that buf has size > 32
 // return a pointer to buf
-char *showBits(Word val, char *buf)
-{
-
+char *showBits(Word val, char *buf){
 	unsigned int mask = 1U << 31; 
 	int i = 0; 
 	int k = 0; 
@@ -84,7 +82,8 @@ char *showBits(Word val, char *buf)
 		mask = 1U << 31;
 		k = 0; 
 		while(k < val){
-			if((buf[i] & mask) != 0){
+			if((val & mask) != 0){
+				buf[i] = 1;
 				printf("1");
 			} else {
 				printf("0");
@@ -92,8 +91,8 @@ char *showBits(Word val, char *buf)
 			mask = mask >> 1;
 			k++;
 		}
-   }
-   return buf;
+	}
+   	return buf;
 }
 
 // checks command-line args
