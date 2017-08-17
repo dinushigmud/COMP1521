@@ -14,7 +14,9 @@ struct _float {
    // define bit_fields for sign, exp and frac
    // obviously they need to be larger than 1-bit each
    // and may need to be defined in a different order
-   unsigned int sign:1, exp:1, frac:1;
+   unsigned int sign:1,
+		exp:8,
+		frac:23;
 };
 typedef struct _float Float32;
 
@@ -51,6 +53,54 @@ int main(int argc, char **argv)
    return 0;
 }
 
+void print_float (Union32 print_f){
+    unsigned int print_val = print_f.bits.exp;
+    int i =0;
+
+    for(i=7; i>=0;i--){
+	printf(" %u", print_val & (1<<i));
+    }
+    printf("\n");
+
+}
+
+void print_float_frac(Union32 print_f){
+    unsigned int print_val = print_f.bits.frac;
+    int i =0;
+
+    for(i=22; i>=0;i--){
+        if((print_val & (1<<i)) > 0){
+            printf(" 1");
+	}else {
+	    printf("0");
+	}
+    }
+    printf("\n");
+
+}
+
+void store_sign(char *sign, Union32 new){
+    unsigned int sign_val = atoi(sign);
+    new.bits.sign = sign_val;
+    printf("new.sign.bits = %u\n", new.bits.sign);
+}
+
+void store_exp(char *exp, Union32 new){
+    unsigned int exp_val = atoi(exp);
+    new.bits.exp = exp_val;
+
+
+    printf("new.bits.exp = %u\n", new.bits.exp);
+    print_float(new);
+}
+
+void store_frac(char *frac, Union32 new){
+    unsigned long frac_val = atoi(frac);
+    new.bits.frac = frac_val;
+    printf("new.bits.frac");
+    print_float_frac(new);
+}
+
 // convert three bit-strings (already checked)
 // into the components of a struct _float
 Union32 getBits(char *sign, char *exp, char *frac)
@@ -62,11 +112,13 @@ Union32 getBits(char *sign, char *exp, char *frac)
    new.bits.sign = new.bits.exp = new.bits.frac = 0;
 
    // convert char *sign into a single bit in new.bits
+   store_sign(sign, new);
 
    // convert char *exp into an 8-bit value in new.bits
+   store_exp(exp, new);
 
    // convert char *frac into a 23-bit value in new.bits
-
+   store_frac(frac, new);
    return new;
 }
 
@@ -74,25 +126,32 @@ Union32 getBits(char *sign, char *exp, char *frac)
 // of '0' and '1' characters in an array buf
 // assume that buf has size > 32
 // return a pointer to buf
-char *showBits(Word val, char *buf){
-	unsigned int mask = 1U << 31; 
-	int i = 0; 
+char *showBits(Word val, char *buf)
+{
+
+   //assert(val!=NULL);
+   
+   unsigned int mask = 1U << 31; 
 	int k = 0; 
-	while(i < val){
+	printf("printing show_bits: ");
 		mask = 1U << 31;
 		k = 0; 
-		while(k < val){
+		while(k < 32){
 			if((val & mask) != 0){
-				buf[i] = 1;
+				buf[k] = 1;
 				printf("1");
 			} else {
 				printf("0");
 			}
 			mask = mask >> 1;
+			val = val >>1;
+
 			k++;
 		}
-	}
+		printf("\n");
+
    	return buf;
+
 }
 
 // checks command-line args
