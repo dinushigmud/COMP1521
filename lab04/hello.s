@@ -56,7 +56,7 @@ eol:
 hello_ret_save:       # place to save $ra
    .space 4           # in case we make a function call
 
-   .text
+   .texts
    .globl say_hello
 say_hello:
    sw   $ra, hello_ret_save
