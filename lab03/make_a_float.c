@@ -14,15 +14,9 @@ struct _float {
    // define bit_fields for sign, exp and frac
    // obviously they need to be larger than 1-bit each
    // and may need to be defined in a different order
-<<<<<<< HEAD
    unsigned int frac:23,  //sign:1,
 		exp:8,
 		sign:1;   //frac:23;
-=======
-   unsigned int sign:1,
-		exp:8,
-		frac:23;
->>>>>>> 40e5089c14c9aebf4ef44e5d08c759ec31872211
 };
 typedef struct _float Float32;
 
@@ -59,94 +53,11 @@ int main(int argc, char **argv)
    return 0;
 }
 
-<<<<<<< HEAD
 
-=======
-/*void print_float (Union32 print_f){
-    unsigned int print_val = print_f.bits.exp;
-    int i =0;
-
-    for(i=7; i>=0;i--){
-	printf(" %u", print_val & (1<<i));
-    }
-    printf("\n");
-
-}
-
-void print_float_frac(Union32 print_f){
-    unsigned int print_val = print_f.bits.frac;
-    int i =0;
-
-    for(i=22; i>=0;i--){
-        if((print_val & (1<<i)) > 0){
-            printf(" 1");
-	}else {
-	    printf("0");
-	}
-    }
-    printf("\n");
-
-}*/
-
-void store_sign(char *sign, Union32 new){
-    unsigned int sign_val = atoi(sign);
-    new.bits.sign = sign_val;
-    printf("new.sign.bits = %u\n", new.bits.sign);
-}
-
-void store_exp(char *exp, Union32 new){
-    unsigned int exp_val = atoi(exp);
-    new.bits.exp = exp_val;
-
-	unsigned int mask = 1U; 
-	int k = 0; 
-	while(k < 8){
-    printf ("val = %u , mask = %u\n", exp_val, mask);
-		if((exp_val & mask) != 0){
-			new.bits.exp = 1;
-			printf("1");
-		} else {
-			new.bits.exp = 0;
-			printf("0");
-		}
-		mask = mask << 1;
-		//new.bits.exp = new.bits.exp << 1;
-		k++;
-	}
-	printf("\n");
-
-}
-
-void store_frac(char *frac, Union32 new){
-    unsigned int frac_val = atoi(frac);
-    new.bits.frac = frac_val;
-
-	unsigned int mask = 1U << 7; 
-	int k = 0; 
-	while(k < 22){
-		if((frac_val & mask) != 0){
-			new.bits.frac = 1;
-			printf("1");
-		} else {
-			printf("0");
-		}
-		mask = mask >> 1;
-        frac_val = frac_val >> 1;
-		new.bits.frac = new.bits.frac >> 1;
-		k++;
-	}
-	printf("\n");
-    
-}
-
-// convert three bit-strings (already checked)
-// into the components of a struct _float
->>>>>>> 40e5089c14c9aebf4ef44e5d08c759ec31872211
 Union32 getBits(char *sign, char *exp, char *frac)
 {
    Union32 new;
 
-<<<<<<< HEAD
    int exponent = 0;
    int fraction = 0;
    unsigned int exp_mask = 1U << 7;
@@ -162,19 +73,9 @@ Union32 getBits(char *sign, char *exp, char *frac)
                 j++;
         }
         new.bits.frac = fraction;
-=======
-   // this line is just to keep gcc happy
-   // delete it when you have implemented the function
-   new.bits.sign = new.bits.exp = new.bits.frac = 0;
-
-   // convert char *sign into a single bit in new.bits
-   store_sign(sign, new);
->>>>>>> 40e5089c14c9aebf4ef44e5d08c759ec31872211
 
    // convert char *exp into an 8-bit value in new.bits
-   store_exp(exp, new);
 
-<<<<<<< HEAD
    int i = 0;
 	while(i < 8){
 		if(exp[i] == '1'){
@@ -189,10 +90,6 @@ Union32 getBits(char *sign, char *exp, char *frac)
         // convert char *sign into a single bit in new.bits
        new.bits.sign = atoi(sign);
 
-=======
-   // convert char *frac into a 23-bit value in new.bits
-   store_frac(frac, new);
->>>>>>> 40e5089c14c9aebf4ef44e5d08c759ec31872211
    return new;
 }
 
@@ -203,7 +100,6 @@ Union32 getBits(char *sign, char *exp, char *frac)
 // return a pointer to buf
 char *showBits(Word val, char *buf)
 {
-<<<<<<< HEAD
         unsigned int mask = 1U << 31;
 	int k = 0;
 	mask = 1U << 31;
@@ -222,29 +118,6 @@ char *showBits(Word val, char *buf)
 		}
 		k++;
 	}
-=======
-
-   //assert(val!=NULL);
-   
-   unsigned int mask = 1U << 31; 
-	int k = 0; 
-	printf("printing show_bits: ");
-		mask = 1U << 31;
-		k = 0; 
-		while(k < 32){
-			if((val & mask) != 0){
-				buf[k] = 1;
-				printf("1");
-			} else {
-				printf("0");
-			}
-			mask = mask >> 1;
-			val = val >>1;
-
-			k++;
-		}
-		printf("\n");
->>>>>>> 40e5089c14c9aebf4ef44e5d08c759ec31872211
 
    	return buf;
 
