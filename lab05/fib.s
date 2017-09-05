@@ -6,7 +6,7 @@
     msg2:
     .asciiz "fib(n) = "
 
-    error: .asciiz "n must be > 0 "
+    error_msg: .asciiz "n must be > 0 "
 
     .text
 
@@ -43,7 +43,7 @@
     move $a0, $v0
 
     li $t0, 1
-    bge $a0, $t0, error
+    bge $a0, $t0, error_msg
     # ... add code to check (n >= 1)
     
     error:
