@@ -122,7 +122,7 @@
     lw $s7,0($sp)   #Pop return value from stack
     add $sp,$sp,4
 
-    add $v0,$v0,$s7 # f(n - 2)+fib(n-1)
+    add $s0,$v0,$s7 # f(n - 2)+fib(n-1)
     jr   $ra
 
     zero:
