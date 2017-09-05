@@ -70,7 +70,7 @@
         syscall
 
         li   $a0, "\n"       # printf("\n");
-        li   $v0, 11
+        li   $v0, 4
         syscall
 
     # epilogue
@@ -93,7 +93,6 @@
 
     .global fib
     fib:
-
         # Compute and return fibonacci number
         beqz $a0,zero   #if n=0 return 0
         beq $a0,1,one   #if n=1 return 1
