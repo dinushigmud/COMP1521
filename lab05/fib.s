@@ -68,7 +68,7 @@
     li   $v0, 1
     syscall
 
-    li   $a0, '\n'       # printf("\n");
+    li   $a0, "\n"       # printf("\n");
     li   $v0, 11
     syscall
 
