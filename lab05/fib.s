@@ -43,11 +43,11 @@
     move $a0, $v0
 
     li $t0, 1
-    bge $a0, $t0, error_msg
+    bge $a0, $t0, error
     # ... add code to check (n >= 1)
     
     error:
-        la $a0, error
+        la $a0, error_msg
         li $v0, 4
         syscall
 
