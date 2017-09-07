@@ -49,7 +49,7 @@ main:
 
     #printf("# Iterations")
     li $v0, 4
-    ls $a0, promptMessage
+    la $a0, promptMessage
     syscall
 
     #scanf - store value in maxiters
@@ -137,15 +137,15 @@ main:
     
     main_final: 
         li $v0, 4
-        ls $a0, resultMessage_1
+        la $a0, resultMessage_1
         syscall
 
         li $v0, 1
-        ls $a0, maxiters
+        la $a0, maxiters
         syscall
 
         li $v0, 4
-        ls $a0, resultMessage_2
+        la $a0, resultMessage_2
         syscall
             
         #jump to function copyBackAndShow
@@ -163,7 +163,7 @@ end_main:
 
 # The other functions go here
 #-----------------------------------------------------
-    .global neighbours 
+    .globl neighbours 
 neighbours:
     li $t5, nn_neighbours
 
@@ -217,7 +217,7 @@ neighbours:
 
 
 #-----------------------------------------------------
-    .global copyBackAndShow
+    .globl copyBackAndShow
 copyBackAndShow:
     li $t6, N#t6 is our constant N
     li $t7, 0 #t7 is our counter i
