@@ -19,7 +19,6 @@ char_period:   .asciiz "."
 char_hash:     .asciiz "#"
 char_newline:  .asciiz "\n"
 
-
 ### when accessign board[i][j]
 ### an offset of (i*N)+j is required
 
