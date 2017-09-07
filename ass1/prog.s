@@ -203,11 +203,11 @@ copyBackAndShow:
     lw $t6, N#t6 is our constant N
     li $t7, 0 #t7 is our counter i
     li $t8, 0 #t8 is our counter j
-    i_loop: 
-        ble $t7, $t6, i_loop_end
+    loop_1: 
+        ble $t7, $t6, loop_1_end
 
-        j_loop:
-            ble $t8, $t6, j_loop_end
+        loop_2:
+            ble $t8, $t6, loop_2_end
 
             mul $t5, $t6, $t7
             add $t5, $t5, $t8
@@ -228,8 +228,8 @@ copyBackAndShow:
             
 
             addi $t8, $t8, 1
-            j j_loop
-            j_loop_end:
+            j loop_2
+            loop_2_end:
                 li $t8, 0
                 li $v0, 4
                 la $a0, char_newline
@@ -237,7 +237,7 @@ copyBackAndShow:
                 
 
         addi $t7, $t7, 1
-        j i_loop
-        i_loop_end:
+        j loop_1
+        loop_1_end:
             jr $ra
-s
+
