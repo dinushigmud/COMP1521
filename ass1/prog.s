@@ -139,6 +139,18 @@ main:
     
     main_final: 
 
+        li $v0, 4
+        la $a0, resultMessage_1
+        syscall
+
+        li $v0, 1
+        lw $a0, maxiters
+        syscall
+
+        li $v0, 4
+        la $a0, resultMessage_2
+        syscall
+
             
         #jump to function copyBackAndShow
         jal copyBackAndShow
