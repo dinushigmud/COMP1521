@@ -240,13 +240,13 @@ copyBackAndShow:
             move $s1, $s0
             beq $s0, $zero, print_period
 
-            li $v0, 11
-		    la $a0, "#"
+            li $v0, 4
+		    la $a0, print_hash
 		    syscall
 
             print_period:
-                li $v0, 11
-                la $a0, "."
+                li $v0, 4
+                la $a0, print_period
                 syscall
             
 
