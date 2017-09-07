@@ -183,8 +183,9 @@ neighbours:
         y_loop:
             ble $t8, $t6, y_loop_end
 
-            add $a1, $t7, $a1
-            add $a2, $t8, $a2
+            #a1 = i && a2 = j
+            add $t7, $t7, $a1
+            add $t8, $t8, $a2
 
             #$t7 = x+i
             #$t8 = j+y
