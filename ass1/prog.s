@@ -113,11 +113,13 @@ main:
                         nn_lt2:
                             li $s7, 0
                             sb $s7, newBoard($t5)
+                            j if_end
  
 
                         nn_2_3:
                             li $s7, 1
                             sb $s7, newBoard($t5)
+                            j if_end
 
 
                     nn_3:
