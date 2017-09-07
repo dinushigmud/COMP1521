@@ -172,7 +172,7 @@ neighbours:
             bne $t7, $zero, x_loop_end
             bne $t8, $zero, x_loop_end
 
-            li $s3, N
+            lw $s3, N
             mul $s4, $s3, $t7
             add $s4, $s4, $t8
             lb $s5, board($s4)
