@@ -14,7 +14,7 @@ promptMessage: .asciiz "#Iterations: "
 resultMessage_1: .asciiz  "\n===After iteration "
 resultMessage_2: .asciiz  " ===\n"
 maxiters:      .word   0
-nn_neighbours: .word   0
+#nn_neighbours: .word   0
 char_period:   .asciiz "."
 char_hash:     .asciiz "#"
 char_newline:  .asciiz "\n"
@@ -184,7 +184,7 @@ end_main:
 #-----------------------------------------------------
     .globl neighbours 
 neighbours:
-    lw $t5, nn_neighbours
+    li $t5, 0
 
     li $t6, 1 #t6 is our constant 1
     li $t7, -1 #t7 is our counter x
