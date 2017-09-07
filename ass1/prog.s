@@ -227,7 +227,7 @@ copyBackAndShow:
     li $t7, 0 #t7 is our counter i
     li $t8, 0 #t8 is our counter j
     loop_1: 
-        ble $t7, $t6, loop_1_end
+        ble $t6, $t7, loop_1_end
 
         loop_2:
             ble $t8, $t6, loop_2_end
