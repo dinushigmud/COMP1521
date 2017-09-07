@@ -57,18 +57,7 @@ main:
     n_loop:
         beq $t1, $t0, n_loop_end #if t1 == t0 then end n_loop
  
-        li $v0, 4
-        la $a0, resultMessage_1
-        syscall
-
-        li $v0, 1
-        move $a0, $t1
-        syscall
-
-        li $v0, 4
-        la $a0, resultMessage_2
-        syscall
-
+        
         #second for loop
         li $t3, 0
         i_loop:
@@ -137,6 +126,19 @@ main:
                     j i_loop
 
             i_loop_end:
+                li $v0, 4
+                la $a0, resultMessage_1
+                syscall
+
+                li $v0, 1
+                move $a0, $t1
+                syscall
+
+                li $v0, 4
+                la $a0, resultMessage_2
+                syscall
+
+
                 jal copyBackAndShow
 
                 addi $t1, $t1, 1 #iterate by 1 (n++)
