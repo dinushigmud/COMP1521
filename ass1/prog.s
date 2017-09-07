@@ -117,7 +117,6 @@ main:
                     nn_3:
                         li $t6, 1
                     
-                    jal copyBackAndShow
 
                     addi $t4, $t4, 1 #(j++)
                     j j_loop
@@ -131,6 +130,7 @@ main:
             i_loop_end:
                 li $t3, 0 #i needs to be reinitialized
 
+        jal copyBackAndShow
 
         addi $t1, $t1, 1 #iterate by 1 (n++)
         j n_loop
@@ -255,9 +255,9 @@ copyBackAndShow:
             j loop_2
             loop_2_end:
                 li $t8, 0
-                li $v0, 4
-                la $a0, char_newline
-                syscall
+                #li $v0, 4
+                #la $a0, char_newline
+                #syscall
                 
 
         addi $t7, $t7, 1
