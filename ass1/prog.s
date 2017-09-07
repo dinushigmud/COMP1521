@@ -74,6 +74,10 @@ main:
                     jal neighbours
                     #v1 = return value of int now
 
+                    li $v0, 1
+                        move $a0, $v1
+                        syscall
+
                     #if else statement
                     mul $t5, $t2, $t3
                     add $t5, $t5, $t4
@@ -118,9 +122,6 @@ main:
 
                     
                     if_end:
-                        li $v0, 1
-                        move $a0, $s7
-                        syscall
 
                         addi $t4, $t4, 1 #(j++)
                         j j_loop
