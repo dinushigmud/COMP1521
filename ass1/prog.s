@@ -255,9 +255,9 @@ copyBackAndShow:
             j loop_2
             loop_2_end:
                 li $t8, 0
-                #li $v0, 4
-                #la $a0, char_newline
-                #syscall
+                li $v0, 4
+                la $a0, char_newline
+                syscall
                 
 
         addi $t7, $t7, 1
