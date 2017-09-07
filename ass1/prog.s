@@ -40,6 +40,7 @@ main:
 
     sw $v0, maxiters
 
+    
     #li $v0, 4
     #la $a0, textMessage
     #syscall
@@ -51,13 +52,25 @@ main:
     #for loops
     #first for loop
     lw $t0, maxiters #t0 is our max_constant
-    li $t1, 0 #t1 is our counter n
+    li $t1, 1 #t1 is our counter n
     lw $t2, N #N - Game of life grid is 10*10
     li $t3, 0 #t3 is our counter i
     li $t4, 0 #t4 is our counter j
     n_loop:
         beq $t1, $t0, n_loop_end #if t1 == t0 then end n_loop
  
+        li $v0, 4
+        la $a0, resultMessage_1
+        syscall
+
+        li $v0, 1
+        move $a0, $t1
+        syscall
+
+        li $v0, 4
+        la $a0, resultMessage_2
+        syscall
+
         #second for loop
         i_loop:
             beq $t3, $t2, i_loop_end
@@ -126,17 +139,7 @@ main:
             beq $t1, $t0, main_final
     
     main_final: 
-        li $v0, 4
-        la $a0, resultMessage_1
-        syscall
 
-        li $v0, 1
-        lw $a0, maxiters
-        syscall
-
-        li $v0, 4
-        la $a0, resultMessage_2
-        syscall
             
         #jump to function copyBackAndShow
         jal copyBackAndShow
