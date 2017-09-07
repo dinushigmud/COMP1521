@@ -117,6 +117,7 @@ main:
                     nn_3:
                         li $t6, 1
                     
+                    jal copyBackAndShow
 
                     addi $t4, $t4, 1 #(j++)
                     j j_loop
