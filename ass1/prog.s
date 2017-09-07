@@ -240,7 +240,7 @@ copyBackAndShow:
             lb $s1, newBoard($t5)
 
             move $s1, $s0
-            beq $s0, $zero, print_period
+            beq $s1, $zero, print_period
 
             li $v0, 4
 		    la $a0, char_hash
