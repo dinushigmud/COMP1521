@@ -73,9 +73,10 @@ main:
                     move $a2, $t4
                     jal neighbours
                     #v1 = return value of int now
+                    move $s6,  $v1
 
                     li $v0, 1
-                        move $a0, $v1
+                        move $a0, $s6
                         syscall
 
                     #if else statement
@@ -88,7 +89,7 @@ main:
                     li $t7, 1
                     beq $t7, $t6, board_1 #if board[i][j] == 1
                     li $t7, 3
-                    beq $t7, $v1, nn_3  #if nn == 3
+                    beq $t7, $s6, nn_3  #if nn == 3
 
                     #if board[i][j] != 1 && nn != 3
                     li $s7, 0
@@ -97,10 +98,10 @@ main:
 
                     board_1:
                         li $t7, 2
-                        blt $v1, $t7, nn_lt2 #if(nn < 2)
-                        beq $v1, $t7, nn_2_3 #if(nn == 2)
+                        blt $s6, $t7, nn_lt2 #if(nn < 2)
+                        beq $s6, $t7, nn_2_3 #if(nn == 2)
                         li $t7, 3
-                        beq $v1, $t7, nn_2_3 #if(nn==3)
+                        beq $s6, $t7, nn_2_3 #if(nn==3)
                         li $s7, 0
                         sb $s7, newBoard($t5) 
                         beq $s7, $zero, if_end
