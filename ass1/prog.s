@@ -45,7 +45,7 @@ main:
     syscall
 
     li $v0, 1
-    la $a0, maxiters
+    lw $a0, maxiters
     syscall
 
     #for loops
@@ -131,7 +131,7 @@ main:
         syscall
 
         li $v0, 1
-        la $a0, maxiters
+        lw $a0, maxiters
         syscall
 
         li $v0, 4
