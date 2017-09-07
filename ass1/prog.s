@@ -185,7 +185,9 @@ neighbours:
     li $t6, 1 #t6 is our constant 1
     li $t7, -1 #t7 is our counter x
     li $t8, -1 #t8 is our counter y
-    li $t9, 9
+    lw $s3, N
+    li $t9, 1
+    sub $t9, $s3, $t9
     x_loop: 
         ble $t7, $t6, x_loop_end
 
@@ -210,7 +212,7 @@ neighbours:
                 bne $t7, $zero, if_fail
                 bne $t8, $zero, if_fail
 
-            lw $s3, N
+            
             mul $s4, $s3, $a1
             add $s4, $s4, $a2
             lb $s5, board($s4)
