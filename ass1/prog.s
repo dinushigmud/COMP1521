@@ -13,7 +13,6 @@ main_ret_save: .space 4
 promptMessage: .asciiz "#Iterations: "
 resultMessage_1: .ascii  "\n===After iteration "
 resultMessage_2: .ascii  " ===\n"
-textMessage: .ascii "\nmaxiters = "
 maxiters:      .word   0
 nn_neighbours: .word   0
 char_period:   .ascii "."
