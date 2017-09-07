@@ -186,9 +186,9 @@ end_main:
 neighbours:
     li $t5, 0#nn
 
-    li $t6, 3 #t6 is our constant 3
-    li $t7, 0 #t7 is our counter x
-    li $t8, 0 #t8 is our counter y
+    li $t6, 1 #t6 is our constant 3
+    li $t7, -1 #t7 is our counter x
+    li $t8, -1#t8 is our counter y
     lw $s3, N
     li $t9, 1
     sub $t9, $s3, $t9
