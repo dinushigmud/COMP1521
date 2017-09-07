@@ -203,10 +203,6 @@ neighbours:
             add $a1, $t7, $a1
             add $a2, $t8, $a2
 
-            li $v0, 1
-            move $a0, $a1
-            syscall
-
             #$a1 = x+i
             #$a2 = j+y
             #if statements
