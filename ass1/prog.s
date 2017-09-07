@@ -237,9 +237,9 @@ copyBackAndShow:
             mul $t5, $t6, $t7
             add $t5, $t5, $t8
             lb $s0, board($t5)
-            lb $s7, newBoard($t5)
+            lb $s1, newBoard($t5)
 
-            move $s0, $s7
+            move $s1, $s0
             beq $s0, $zero, print_period
 
             li $v0, 4
