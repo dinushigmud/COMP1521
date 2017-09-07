@@ -252,7 +252,6 @@ copyBackAndShow:
             lb $s1, newBoard($t5)
 
             sb $s1, board($t5)
-            lb $s0, board($t5)
             beq $s0, $zero, print_period
 
             li $v0, 4
