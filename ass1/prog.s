@@ -198,33 +198,32 @@ neighbours:
             #$a1 = x+i
             #$a2 = j+y
             #if statements
-            blt $a1, $zero, if_2
-            ble $a1, $t9, if_fail
+            blt $a1, $zero, if_2 #if(x+i)<0 continue
+            ble $a1, $t9, if_fail #if(x+i)>N-1 continue
 
             if_2:
-                blt $a2, $zero, if_3
-                ble $a2, $t9, if_fail
+                blt $a2, $zero, if_3 #if(y+j)<0 continue
+                ble $a2, $t9, if_fail #if(y+j)>N-1 continue
 
             if_3:    
-                bne $t7, $zero, if_fail
-                bne $t8, $zero, if_fail
+                bne $t7, $zero, if_fail #if(x==0) continue
+                bne $t8, $zero, if_fail #if (y==0) continue
 
             
-            mul $s4, $s3, $a1
-            add $s4, $s4, $a2
+            mul $s4, $s3, $a1 #N*(x+i)
+            add $s4, $s4, $a2 #(N*(x+i))+(j+y)
             lb $s5, board($s4)
 
             li $s3, 1
-            bne $s5, $s3, if_fail
+            bne $s5, $s3, if_fail #if(board[x+i][y+j] == 1 continue
             addi $t5, $t5, 1
 
             if_fail:
-                addi $t8, $t8, 1
+                addi $t8, $t8, 1 #y++
                 j y_loop
 
             y_loop_end:
-                
-                addi $t7, $t7, 1
+                addi $t7, $t7, 1 #x++
                 j x_loop
 
         x_loop_end:
