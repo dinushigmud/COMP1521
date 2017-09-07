@@ -87,7 +87,7 @@ main:
                     #if else statement
                     mul $t5, $t2, $t3
                     add $t5, $t5, $t4
-                    lb $t6, Board($t5)
+                    lb $t6, board($t5)
                     lb $s7, newBoard($t5)
 
 
