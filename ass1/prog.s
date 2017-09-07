@@ -15,9 +15,9 @@ resultMessage_1: .asciiz  "\n===After iteration "
 resultMessage_2: .asciiz  " ===\n"
 maxiters:      .word   0
 nn_neighbours: .word   0
-char_period:   .ascii "."
-char_hash:     .ascii "#"
-char_newline:  .ascii "\n"
+char_period:   .asciiz "."
+char_hash:     .asciiz "#"
+char_newline:  .asciiz "\n"
 
 
 ### when accessign board[i][j]
@@ -240,13 +240,13 @@ copyBackAndShow:
             move $s1, $s0
             beq $s0, $zero, print_period
 
-            li $v0, 4
-		    la $a0, char_hash
+            li $v0, 11
+		    la $a0, "#"
 		    syscall
 
             print_period:
-                li $v0, 4
-                la $a0, char_period
+                li $v0, 11
+                la $a0, "."
                 syscall
             
 
