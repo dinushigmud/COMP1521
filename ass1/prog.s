@@ -193,11 +193,11 @@ neighbours:
     li $t9, 1
     sub $t9, $s3, $t9
     x_loop: 
-        ble $t7, $t6, x_loop_end
+        bgt $t7, $t6, x_loop_end
 
         li $t8, -1
         y_loop:
-            ble $t8, $t6, y_loop_end
+            bgt $t8, $t6, y_loop_end
 
             #a1 = i && a2 = j
             add $a1, $t7, $a1
