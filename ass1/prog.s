@@ -106,16 +106,23 @@ main:
                         li $t7, 3
                         beq $v1, $t7, nn_2_3
                         li $s7, 0
+                        sb $s7, newBoard($t5)
                         beq $s7, $zero, j_loop_end
 
                         nn_lt2:
-                            li $s7, 0 
+                            li $s7, 0
+                            sb $s7, newBoard($t5)
+ 
 
                         nn_2_3:
                             li $s7, 1
+                            sb $s7, newBoard($t5)
+
 
                     nn_3:
                         li $s7, 1
+                        sb $s7, newBoard($t5)
+
                     
 
                     addi $t4, $t4, 1 #(j++)
