@@ -96,8 +96,9 @@ main:
                     beq $t7, $v1, nn_3
                     #if nn != 1 && nn != 3
 
-                    li $t6, 0
-                    beq $t6, $zero, j_loop_end
+                    li $s7, 0
+                    sb $s7, newBoard($t5)
+                    beq $t6, $zero, if_end
 
                     board_1:
                         li $t7, 2
@@ -107,7 +108,7 @@ main:
                         beq $v1, $t7, nn_2_3
                         li $s7, 0
                         sb $s7, newBoard($t5)
-                        beq $s7, $zero, j_loop_end
+                        beq $s7, $zero, if_end
 
                         nn_lt2:
                             li $s7, 0
@@ -124,9 +125,9 @@ main:
                         sb $s7, newBoard($t5)
 
                     
-
-                    addi $t4, $t4, 1 #(j++)
-                    j j_loop
+                    if_end:
+                        addi $t4, $t4, 1 #(j++)
+                        j j_loop
 
                     j_loop_end:
                         li $t4, 0 #j needs to be reinitialized
