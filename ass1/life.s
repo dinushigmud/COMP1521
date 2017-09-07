@@ -60,9 +60,9 @@ main:
 
     #for loops
     #first for loop
-    li $t0, maxiters #t0 is our max_constant
+    lw $t0, maxiters #t0 is our max_constant
     li $t1, 0 #t1 is our counter n
-    li $t2, N #N - Game of life grid is 10*10
+    lw $t2, N #N - Game of life grid is 10*10
     li $t3, 0 #t3 is our counter i
     li $t4, 0 #t4 is our counter j
     n_loop:
@@ -165,12 +165,12 @@ end_main:
 #-----------------------------------------------------
     .globl neighbours 
 neighbours:
-    li $t5, nn_neighbours
+    lw $t5, nn_neighbours
 
     li $t6, 1 #t6 is our constant 1
     li $t7, -1 #t7 is our counter x
     li $t8, -1 #t8 is our counter y
-    li $t9, N-1
+    li $t9, 9
     x_loop: 
         ble $t7, $t6, x_loop_end
 
@@ -191,7 +191,7 @@ neighbours:
             bne $t7, $zero, x_loop_end
             bne $t8, $zero, x_loop_end
 
-            li $s3, N
+            lw $s3, N
             mul $s4, $s3, $t7
             add $s4, $s4, $t8
             lb $s5, board($s4)
@@ -219,14 +219,14 @@ neighbours:
 #-----------------------------------------------------
     .globl copyBackAndShow
 copyBackAndShow:
-    li $t6, N#t6 is our constant N
+    lw $t6, N#t6 is our constant N
     li $t7, 0 #t7 is our counter i
     li $t8, 0 #t8 is our counter j
-    i_loop: 
-        ble $t7, $t6, i_loop_end
+    loop_1: 
+        ble $t7, $t6, loop_1_end
 
-        j_loop:
-            ble $t8, $t6, j_loop_end
+        loop_2:
+            ble $t8, $t6, loop_2_end
 
             mul $t5, $t6, $t7
             add $t5, $t5, $t8
@@ -247,8 +247,8 @@ copyBackAndShow:
             
 
             addi $t8, $t8, 1
-            j j_loop
-            j_loop_end:
+            j loop_2
+            loop_2_end:
                 li $t8, 0
                 li $v0, 4
                 la $a0, char_newline
@@ -256,7 +256,7 @@ copyBackAndShow:
                 
 
         addi $t7, $t7, 1
-        j i_loop
-        i_loop_end:
+        j loop_1
+        loop_1_end:
             jr $ra
-s
+
