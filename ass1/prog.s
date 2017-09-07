@@ -241,12 +241,12 @@ copyBackAndShow:
             beq $s0, $zero, print_period
 
             li $v0, 4
-		    la $a0, print_hash
+		    la $a0, char_hash
 		    syscall
 
             print_period:
                 li $v0, 4
-                la $a0, print_period
+                la $a0, char_period
                 syscall
             
 
