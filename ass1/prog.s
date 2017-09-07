@@ -76,8 +76,8 @@ main:
                     move $s6,  $v1
 
                     li $v0, 1
-                        move $a0, $s6
-                        syscall
+                    move $a0, $s6
+                    syscall
 
                     #if else statement
                     mul $t5, $t2, $t3
@@ -184,7 +184,7 @@ end_main:
 #-----------------------------------------------------
     .globl neighbours 
 neighbours:
-    li $t5, 0
+    li $t5, 0#nn
 
     li $t6, 1 #t6 is our constant 1
     li $t7, -1 #t7 is our counter x
@@ -202,6 +202,10 @@ neighbours:
             #a1 = i && a2 = j
             add $a1, $t7, $a1
             add $a2, $t8, $a2
+
+            li $v0, 1
+            move $a0, $a1
+            syscall
 
             #$a1 = x+i
             #$a2 = j+y
