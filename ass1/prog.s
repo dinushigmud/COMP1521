@@ -224,7 +224,7 @@ neighbours:
                 j y_loop
 
             y_loop_end:
-                li $t8, 0
+                li $t8, -1
                 
 
         addi $t7, $t7, 1
