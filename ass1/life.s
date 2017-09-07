@@ -30,13 +30,13 @@ newBoard: .space 100
 main_ret_save: .space 4
 
 promptMessage: .asciiz "#Iterations: "
-resultMessage_1: .ascii  "\n===After iteration "
-resultMessage_2: .ascii  "===\n"
+resultMessage_1: .asciiz  "\n===After iteration "
+resultMessage_2: .asciiz  " ===\n"
 maxiters:      .word   0
 nn_neighbours: .word   0
-char_period:   .ascii "."
-char_hash:     .ascii "#"
-char_newline:  .ascii "\n"
+char_period:   .asciiz "."
+char_hash:     .asciiz "#"
+char_newline:  .asciiz "\n"
 
 
 ### when accessign board[i][j]
@@ -58,16 +58,37 @@ main:
 
     sw $v0, maxiters
 
+    
+    #li $v0, 4
+    #la $a0, textMessage
+    #syscall
+
+    #li $v0, 1
+    #lw $a0, maxiters
+    #syscall
+
     #for loops
     #first for loop
     lw $t0, maxiters #t0 is our max_constant
-    li $t1, 0 #t1 is our counter n
+    li $t1, 1 #t1 is our counter n
     lw $t2, N #N - Game of life grid is 10*10
     li $t3, 0 #t3 is our counter i
     li $t4, 0 #t4 is our counter j
     n_loop:
         beq $t1, $t0, n_loop_end #if t1 == t0 then end n_loop
  
+        li $v0, 4
+        la $a0, resultMessage_1
+        syscall
+
+        li $v0, 1
+        move $a0, $t1
+        syscall
+
+        li $v0, 4
+        la $a0, resultMessage_2
+        syscall
+
         #second for loop
         i_loop:
             beq $t3, $t2, i_loop_end
@@ -86,6 +107,7 @@ main:
                     mul $t5, $t2, $t3
                     add $t5, $t5, $t4
                     lb $t6, board($t5)
+                    lb $s7, newBoard($t5)
 
 
                     li $t7, 1
@@ -103,17 +125,17 @@ main:
                         beq $v1, $t7, nn_2_3
                         li $t7, 3
                         beq $v1, $t7, nn_2_3
-                        li $t6, 0
-                        beq $t6, $zero, j_loop_end
+                        li $s7, 0
+                        beq $s7, $zero, j_loop_end
 
                         nn_lt2:
-                            li $t6, 0 
+                            li $s7, 0 
 
                         nn_2_3:
-                            li $t6, 1
+                            li $s7, 1
 
                     nn_3:
-                        li $t6, 1
+                        li $s7, 1
                     
 
                     addi $t4, $t4, 1 #(j++)
@@ -128,6 +150,7 @@ main:
             i_loop_end:
                 li $t3, 0 #i needs to be reinitialized
 
+        jal copyBackAndShow
 
         addi $t1, $t1, 1 #iterate by 1 (n++)
         j n_loop
@@ -136,17 +159,19 @@ main:
             beq $t1, $t0, main_final
     
     main_final: 
+
         li $v0, 4
         la $a0, resultMessage_1
         syscall
 
         li $v0, 1
-        la $a0, maxiters
+        lw $a0, maxiters
         syscall
 
         li $v0, 4
         la $a0, resultMessage_2
         syscall
+
             
         #jump to function copyBackAndShow
         jal copyBackAndShow
@@ -223,17 +248,17 @@ copyBackAndShow:
     li $t7, 0 #t7 is our counter i
     li $t8, 0 #t8 is our counter j
     loop_1: 
-        ble $t7, $t6, loop_1_end
+        ble $t6, $t7, loop_1_end
 
         loop_2:
-            ble $t8, $t6, loop_2_end
+            ble $t6, $t8, loop_2_end
 
             mul $t5, $t6, $t7
             add $t5, $t5, $t8
             lb $s0, board($t5)
             lb $s1, newBoard($t5)
 
-            move $s1, $s0
+            move $s0, $s1
             beq $s0, $zero, print_period
 
             li $v0, 4
