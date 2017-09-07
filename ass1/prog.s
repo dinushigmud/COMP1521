@@ -70,10 +70,12 @@ main:
         syscall
 
         #second for loop
+        li $t3, 0
         i_loop:
             beq $t3, $t2, i_loop_end
 
-                #third for loop 
+                #third for loop
+                li $t4, 0 #j =0 
                 j_loop:
                     beq $t4, $t2, j_loop_end
 
@@ -91,23 +93,23 @@ main:
 
 
                     li $t7, 1
-                    beq $t7, $t6, board_1
+                    beq $t7, $t6, board_1 #if board[i][j] == 1
                     li $t7, 3
-                    beq $t7, $v1, nn_3
-                    #if nn != 1 && nn != 3
+                    beq $t7, $v1, nn_3  #if nn == 3
 
+                    #if board[i][j] != 1 && nn != 3
                     li $s7, 0
                     sb $s7, newBoard($t5)
                     beq $t6, $zero, if_end
 
                     board_1:
                         li $t7, 2
-                        blt $v1, $t7, nn_lt2
-                        beq $v1, $t7, nn_2_3
+                        blt $v1, $t7, nn_lt2 #if(nn < 2)
+                        beq $v1, $t7, nn_2_3 #if(nn == 2)
                         li $t7, 3
-                        beq $v1, $t7, nn_2_3
+                        beq $v1, $t7, nn_2_3 #if(nn==3)
                         li $s7, 0
-                        sb $s7, newBoard($t5)
+                        sb $s7, newBoard($t5) 
                         beq $s7, $zero, if_end
 
                         nn_lt2:
@@ -121,7 +123,6 @@ main:
                             sb $s7, newBoard($t5)
                             j if_end
 
-
                     nn_3:
                         li $s7, 1
                         sb $s7, newBoard($t5)
@@ -131,19 +132,15 @@ main:
                         addi $t4, $t4, 1 #(j++)
                         j j_loop
 
-                    j_loop_end:
-                        li $t4, 0 #j needs to be reinitialized
-
-            addi $t3, $t3, 1 #(i++)
-            j i_loop
+                j_loop_end:
+                    addi $t3, $t3, 1 #(i++)
+                    j i_loop
 
             i_loop_end:
-                li $t3, 0 #i needs to be reinitialized
+                jal copyBackAndShow
 
-        jal copyBackAndShow
-
-        addi $t1, $t1, 1 #iterate by 1 (n++)
-        j n_loop
+                addi $t1, $t1, 1 #iterate by 1 (n++)
+                j n_loop
 
         n_loop_end:
             beq $t1, $t0, main_final
@@ -161,8 +158,7 @@ main:
         li $v0, 4
         la $a0, resultMessage_2
         syscall
-
-            
+  
         #jump to function copyBackAndShow
         jal copyBackAndShow
 
@@ -191,6 +187,7 @@ neighbours:
     x_loop: 
         ble $t7, $t6, x_loop_end
 
+        li $t8, -1
         y_loop:
             ble $t8, $t6, y_loop_end
 
@@ -226,11 +223,9 @@ neighbours:
                 j y_loop
 
             y_loop_end:
-                li $t8, -1
                 
-
-        addi $t7, $t7, 1
-        j x_loop
+                addi $t7, $t7, 1
+                j x_loop
 
         x_loop_end:
             move $v1, $t5
@@ -247,6 +242,7 @@ copyBackAndShow:
     loop_1: 
         ble $t6, $t7, loop_1_end
 
+        li $t8, 0
         loop_2:
             ble $t6, $t8, loop_2_end
 
@@ -271,15 +267,15 @@ copyBackAndShow:
 
             addi $t8, $t8, 1
             j loop_2
-            loop_2_end:
-                li $t8, 0
-                li $v0, 4
-                la $a0, char_newline
-                syscall
-                
 
-        addi $t7, $t7, 1
-        j loop_1
-        loop_1_end:
-            jr $ra
+        loop_2_end:
+            li $v0, 4
+            la $a0, char_newline
+            syscall
+                
+            addi $t7, $t7, 1
+            j loop_1
+
+    loop_1_end:
+        jr $ra
 
