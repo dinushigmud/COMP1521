@@ -184,31 +184,35 @@ neighbours:
             ble $t8, $t6, y_loop_end
 
             #a1 = i && a2 = j
-            add $t7, $t7, $a1
-            add $t8, $t8, $a2
+            add $a1, $t7, $a1
+            add $a2, $t8, $a2
 
-            #$t7 = x+i
-            #$t8 = j+y
+            #$a1 = x+i
+            #$a2 = j+y
             #if statements
-            bge $a1, $zero, x_loop_end
-            bge $a2, $zero, x_loop_end
-            ble $a1, $t9, x_loop_end
-            ble $a2, $t9, x_loop_end
+            blt $a1, $zero, if_2
+            ble $a1, $t9, if_fail
 
-            bne $t7, $zero, x_loop_end
-            bne $t8, $zero, x_loop_end
+            if_2:
+                blt $a2, $zero, if_3
+                ble $a2, $t9, if_fail
+
+            if_3:    
+                bne $t7, $zero, if_fail
+                bne $t8, $zero, if_fail
 
             lw $s3, N
-            mul $s4, $s3, $t7
-            add $s4, $s4, $t8
+            mul $s4, $s3, $a1
+            add $s4, $s4, $a2
             lb $s5, board($s4)
 
             li $s3, 1
-            bne $s5, $s3, x_loop_end
+            bne $s5, $s3, if_fail
             addi $t5, $t5, 1
 
-            addi $t8, $t8, 1
-            j y_loop
+            if_fail:
+                addi $t8, $t8, 1
+                j y_loop
 
             y_loop_end:
                 li $t8, 0
