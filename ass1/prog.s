@@ -14,7 +14,6 @@ promptMessage: .asciiz "#Iterations: "
 resultMessage_1: .asciiz  "\n===After iteration "
 resultMessage_2: .asciiz  " ===\n"
 maxiters:      .word   0
-#nn_neighbours: .word   0
 char_period:   .asciiz "."
 char_hash:     .asciiz "#"
 char_newline:  .asciiz "\n"
@@ -140,7 +139,9 @@ main:
                 syscall
 
                 li $v0, 1
-                move $a0, $t1
+                move $t7, $t1
+                addi $t7, $t7, 1
+                move $a0, $t7
                 syscall
 
                 li $v0, 4
@@ -159,23 +160,6 @@ main:
     main_final: 
 
         j end_main
-        #li $v0, 4
-        #la $a0, resultMessage_1
-        #syscall
-
-        #li $v0, 1
-        #lw $a0, maxiters
-        #syscall
-
-        #li $v0, 4
-        #la $a0, resultMessage_2
-        #syscall
-  
-        #jump to function copyBackAndShow
-        #jal copyBackAndShow
-
-   
-# Your main program code goes here
 
 end_main:
     lw   $ra, main_ret_save
@@ -238,9 +222,9 @@ neighbours:
                 j x_loop
 
         x_loop_end:
-            li $v0, 1
-            move $a0, $t5
-            syscall
+            #li $v0, 1
+            #move $a0, $t5
+            #syscall
 
             move $v1, $t5
             jr $ra
