@@ -46,6 +46,7 @@ int neighbours(int i, int j)
          if (board[i+x][j+y] == 1) nn++;
         }
     }
+    printf("%d", nn)
    return nn;
 }
 

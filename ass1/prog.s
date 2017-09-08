@@ -75,9 +75,13 @@ main:
                     #v1 = return value of int now
                     move $s6,  $v1
 
-                    #li $v0, 1
-                    #move $a0, $s6
-                    #syscall
+                    li $v0, 4
+                    la $a0, char_newline
+                    syscall
+
+                    li $v0, 1
+                    move $a0, $s6
+                    syscall
 
                     #if else statement
                     mul $t5, $t2, $t3
@@ -200,33 +204,31 @@ neighbours:
             bgt $t8, $t6, y_loop_end
 
             #a1 = i && a2 = j
-            add $a1, $t7, $a1
-            add $a2, $t8, $a2
+            add $s0, $t7, $a1
+            add $s1, $t8, $a2
 
-            #$a1 = x+i
-            #$a2 = j+y
+            #$s0 = x+i
+            #$s1 = j+y
             #if statements
-            blt $a1, $zero, if_2 #if(x+i)<0 continue
-            ble $a1, $t9, if_fail #if(x+i)>N-1 continue
+            blt $s0, $zero, if_fail #if(x+i)<0 y++
+            bgt $s0, $t9, if_fail #if(x+i)>N-1 y++
 
-            if_2:
-                blt $a2, $zero, if_3 #if(y+j)<0 continue
-                ble $a2, $t9, if_fail #if(y+j)>N-1 continue
+            blt $s1, $zero, if_fail #if(y+j)<0 y++
+            bgt $s1, $t9, if_fail #if(y+j)>N-1 y++
 
-            if_3:    
-                bne $t7, $zero, if_fail #if(x==0) continue
-                bne $t8, $zero, if_fail #if (y==0) continue
+            beq $t7, $zero, if_fail #if(x==0) y++
+            beq $t8, $zero, if_fail #if (y==0) y++
 
-            
-            mul $s4, $s3, $a1 #N*(x+i)
-            add $s4, $s4, $a2 #(N*(x+i))+(j+y)
+            mul $s4, $s3, $s0 #N*(x+i)
+            add $s4, $s4, $s1 #(N*(x+i))+(j+y)
             lb $s5, board($s4)
 
             li $s3, 1
             bne $s5, $s3, if_fail #if(board[x+i][y+j] == 1 continue
-            addi $t5, $t5, 1
+            addi $t5, $t5, 1 #nn++
 
             if_fail:
+                lw $s3, N
                 addi $t8, $t8, 1 #y++
                 j y_loop
 
@@ -239,9 +241,7 @@ neighbours:
             move $a0, $t5
             syscall
 
-
             move $v1, $t5
-
             jr $ra
 
 
