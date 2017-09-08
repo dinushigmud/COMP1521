@@ -94,6 +94,10 @@ main:
                     #v1 = return value of int now
                     move $s6,  $v1
 
+                    #li $v0, 4
+                    #la $a0, char_newline
+                    #syscall
+
                     #li $v0, 1
                     #move $a0, $s6
                     #syscall
@@ -204,13 +208,13 @@ end_main:
     .globl neighbours 
 neighbours:
     li $t5, 0#nn
-
-    li $t6, 1 #t6 is our constant 3
+    li $t6, 1 #t6 is our constant 1
     li $t7, -1 #t7 is our counter x
     li $t8, -1#t8 is our counter y
     lw $s3, N
     li $t9, 1
     sub $t9, $s3, $t9
+
     x_loop: 
         bgt $t7, $t6, x_loop_end
 
@@ -231,16 +235,17 @@ neighbours:
             blt $s1, $zero, if_fail #if(y+j)<0 y++
             bgt $s1, $t9, if_fail #if(y+j)>N-1 y++
 
-            beq $t7, $zero, if_fail #if(x==0) y++
+            bne $t7, $zero, if_pass  #if(x==0) 
             beq $t8, $zero, if_fail #if (y==0) y++
 
-            mul $s4, $s3, $s0 #N*(x+i)
-            add $s4, $s4, $s1 #(N*(x+i))+(j+y)
-            lb $s5, board($s4)
+            if_pass:
+                mul $s4, $s3, $s0 #N*(x+i)
+                add $s4, $s4, $s1 #(N*(x+i))+(j+y)
+                lb $s5, board($s4)
 
-            li $s3, 1
-            bne $s5, $s3, if_fail #if(board[x+i][y+j] == 1 continue
-            addi $t5, $t5, 1 #nn++
+                li $s3, 1
+                bne $s5, $s3, if_fail #if(board[x+i][y+j] == 1 y++
+                addi $t5, $t5, 1 #nn++
 
             if_fail:
                 lw $s3, N
@@ -282,18 +287,21 @@ copyBackAndShow:
             sb $s1, board($t5)
             beq $s1, $zero, print_period
 
-            li $v0, 4
-		    la $a0, char_hash
-		    syscall
+            print_hash:
+                li $v0, 4
+		        la $a0, char_hash
+		        syscall
+
+                j skip
 
             print_period:
                 li $v0, 4
                 la $a0, char_period
                 syscall
             
-
-            addi $t8, $t8, 1
-            j loop_2
+            skip:
+                addi $t8, $t8, 1
+                j loop_2
 
         loop_2_end:
             li $v0, 4
