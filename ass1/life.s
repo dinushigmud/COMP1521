@@ -69,14 +69,13 @@ main:
     #for loops
     #first for loop
     lw $t0, maxiters #t0 is our max_constant
-    li $t1, 1 #t1 is our counter n
+    li $t1, 0 #t1 is our counter n
     lw $t2, N #N - Game of life grid is 10*10
     li $t3, 0 #t3 is our counter i
     li $t4, 0 #t4 is our counter j
     n_loop:
         beq $t1, $t0, n_loop_end #if t1 == t0 then end n_loop
  
-        
         #second for loop
         li $t3, 0
         i_loop:
@@ -279,12 +278,12 @@ copyBackAndShow:
         loop_2:
             ble $t6, $t8, loop_2_end
 
-            mul $t5, $t6, $t7
-            add $t5, $t5, $t8
-            lb $s0, board($t5)
-            lb $s1, newBoard($t5)
+            mul $s3, $t6, $t7
+            add $s3, $s3, $t8
+            lb $s0, board($s3)
+            lb $s1, newBoard($s3)
 
-            sb $s1, board($t5)
+            sb $s1, board($s3)
             beq $s1, $zero, print_period
 
             print_hash:
