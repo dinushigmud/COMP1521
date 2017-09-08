@@ -75,9 +75,9 @@ main:
                     #v1 = return value of int now
                     move $s6,  $v1
 
-                    li $v0, 1
-                    move $a0, $s6
-                    syscall
+                    #li $v0, 1
+                    #move $a0, $s6
+                    #syscall
 
                     #if else statement
                     mul $t5, $t2, $t3
@@ -235,7 +235,13 @@ neighbours:
                 j x_loop
 
         x_loop_end:
+            li $v0, 1
+            move $a0, $t5
+            syscall
+
+
             move $v1, $t5
+
             jr $ra
 
 
