@@ -165,8 +165,8 @@ end_main:
     lw   $ra, main_ret_save
     jr   $ra
 
-    li $v0, 10
-    syscall
+    #li $v0, 10
+    #syscall
 
 # The other functions go here
 #-----------------------------------------------------
