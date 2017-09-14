@@ -62,6 +62,16 @@ DIR *df;
 char *rwxmode(mode_t mode, char *str)
 {
 	strcpy( str, "----------");
+	if(S_ISDIR(mode)) {
+		str[0]='d';
+	}else if(S_ISREG(mode)){
+		str[0]='-';
+	}else if(S_ISLNK(mode)){
+	  	str[0]='l';
+	}else {
+		str[0] = '?';
+	}
+	
 	if (mode & S_IRUSR) {
 		str[1] = 'r';
 	}
