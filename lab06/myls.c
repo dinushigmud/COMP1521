@@ -41,16 +41,21 @@ int main(int argc, char *argv[])
       { fprintf(stderr, "%s: Not a directory\n",argv[0]); exit(EXIT_FAILURE); }
 
    // open the directory to start reading
-   // DIR *df; // UNCOMMENT this line
-   // ... TODO ...
+DIR *df; 
+    struct dirent *entry = getmodid(mode);
+    char buffer[MAXDIRNAME];
+    strcpy(buffer, args[1]);
+    df = opendf(buffer);   
+    if(df!=NULL)
+    {
+	while((entry=readdf(df))!=NULL)
+	    printf(entry->mode_name);
+    }
 
-   // read directory entries
-   // struct dirent *entry; // UNCOMMENT this line
-   // ... TODO ...
+	closedir(df); 
+	return EXIT_SUCCESS;
+}
 
-   // finish up
-   // closedir(df); // UNCOMMENT this line
-   return EXIT_SUCCESS;
 }
 
 // convert octal mode to -rwxrwxrwx string
