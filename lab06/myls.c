@@ -23,9 +23,9 @@ int main(int argc, char *argv[])
 {
    // string buffers for various names
    char dirname[MAXDIRNAME];
-   // char uname[MAXNAME+1]; // UNCOMMENT this line
-   // char gname[MAXNAME+1]; // UNCOMMENT this line
-   // char mode[MAXNAME+1]; // UNCOMMENT this line
+   char uname[MAXNAME+1]; // UNCOMMENT this line
+   char gname[MAXNAME+1]; // UNCOMMENT this line
+   char mode[MAXNAME+1]; // UNCOMMENT this line
 
    // collect the directory name, with "." as default
    if (argc < 2)
@@ -41,68 +41,76 @@ int main(int argc, char *argv[])
       { fprintf(stderr, "%s: Not a directory\n",argv[0]); exit(EXIT_FAILURE); }
 
    // open the directory to start reading
-DIR *df; 
-    struct dirent *entry = getmodid(mode);
-    char buffer[MAXDIRNAME];
-    strcpy(buffer, args[1]);
-    df = opendf(buffer);   
-    if(df!=NULL)
-    {
-	while((entry=readdf(df))!=NULL)
-	    printf(entry->mode_name);
-    }
+   DIR *df; // UNCOMMENT this line
+   // ... TODO ...
+   df = opendir(dirname);
 
-	closedir(df); 
-	return EXIT_SUCCESS;
-}
 
+
+   // read directory entries
+   struct dirent *entry; // UNCOMMENT this line
+   struct stat entrySTAT;
+   while ((entry = readdir(df)) != NULL) {
+      if (entry->d_name[0] == '.') continue;
+      char filepath[MAXDIRNAME+MAXFNAME];
+      filepath[0] = '\0';
+      strcat(filepath, dirname);
+      strcat(filepath, "/");
+      strcat(filepath, entry->d_name);
+      //printf("%s\n", filepath);
+      if(lstat(filepath, &entrySTAT)) printf("ERROR\n");
+      printf("%s  %-8.8s %-8.8s %8lld  %s\n",
+         rwxmode(entrySTAT.st_mode, mode),
+         username(entrySTAT.st_uid, uname),
+         groupname(entrySTAT.st_gid, gname),
+         (long long)entrySTAT.st_size,
+         entry->d_name);
+   }
+
+   // finish up
+   closedir(df); // UNCOMMENT this line
+   return EXIT_SUCCESS;
 }
 
 // convert octal mode to -rwxrwxrwx string
 char *rwxmode(mode_t mode, char *str)
 {
-	strcpy( str, "----------");
-	if(S_ISDIR(mode)) {
-		str[0]='d';
-	}else if(S_ISREG(mode)){
-		str[0]='-';
-	}else if(S_ISLNK(mode)){
-	  	str[0]='l';
-	}else {
-		str[0] = '?';
-	}
-	
-	if (mode & S_IRUSR) {
-		str[1] = 'r';
-	}
-	if (mode & S_IWUSR) {
-		str[2] = 'w';
-	}
-	if (mode & S_IXUSR) {
-		str[3] = 'x';
-	}
-	if (mode & S_IRGRP) {
-		str[4] = 'r';
-	}
-	if (mode & S_IWGRP) {
-		str[5] = 'w';
-	}
-	if (mode & S_IXGRP) {
-		str[6] = 'x';
-	}
-	if (mode & S_IROTH) {
-		str[7] = 'r';
-	}
-	if (mode & S_IWOTH) {
-		str[8] = 'w';
-	}
-	if (mode & S_IXOTH) {
-		str[9] = 'x';
-	}
-	
-	printf("%s\n", str);	
+  // printf("%lo\n", (unsigned long)mode);
+   char cat[4];
+   switch (mode & S_IFMT) {
+      case S_IFBLK:  strcpy(cat, "b");   break;
+      case S_IFCHR:  strcpy(cat, "c");   break;
+      case S_IFDIR:  strcpy(cat, "d");   break;
+      case S_IFIFO:  strcpy(cat, "p");   break;
+      case S_IFLNK:  strcpy(cat, "l");   break;
+      case S_IFREG:  strcpy(cat, "-");   break;
+      case S_IFSOCK: strcpy(cat, "s");   break;
+      default:       strcpy(cat, "?");   break;
+   }
+   str[0] = '\0';
+   strcat(str, cat);
+   int digit[3];
+   digit[2] = mode % 8;
+   digit[1] = (mode/8) % 8;
+   digit[0] = (mode/64) % 8;
 
+   for (int i = 0; i < 3; i++) {
+      switch(digit[i]) {
+         case 0 : strcpy(cat, "---");   break;
+         case 1 : strcpy(cat, "--x");   break;
+         case 2 : strcpy(cat, "-w-");   break;
+         case 3 : strcpy(cat, "-wx");   break;
+         case 4 : strcpy(cat, "r--");   break;
+         case 5 : strcpy(cat, "r-x");   break;
+         case 6 : strcpy(cat, "rw-");   break;
+         case 7 : strcpy(cat, "rwx");   break;
+         default: strcpy(cat, "???");   break;
+      }
+      strcat(str, cat);
+   }
+  // printf(" id s%s\n", str);
    return str;
+
 }
 
 // convert user id to user name
