@@ -16,9 +16,10 @@ int main(void)
    memset (&act, 0, sizeof(act));
 
    if (fork() != 0) {
-      copyInput("Parent");
-   }
+      //signal(SIGINT, SIG_IGN);
+      copyInput("Parent");   }
    else if (fork() != 0) {
+      signal(SIGINT, SIG_IGN);
       copyInput("Child");
    }
    else {
@@ -31,10 +32,17 @@ void copyInput(char *name)
 {
    pid_t mypid = getpid();
    char  line[MAXLINE];
-   printf("%s (%d) ready\n", name, mypid);
+   printf("%s (%d) ady\n", name, mypid);
    while (fgets(line, MAXLINE, stdin) != NULL) {
       printf("%s: %s", name, line);
-      sleep(random()%3);
+      /*if(strcmp(name, "Parent") == 0){
+          signal(SIGINT, SIG_IGN);
+      }*/
+      //if(strcmp(name, "Child") == 0){
+        //signal(SIGINT, SIG_IGN);
+      //}
+      //sleep(random()%3);
+      //sleep(1);
    }
    printf("%s quitting\n", name);
    return;
