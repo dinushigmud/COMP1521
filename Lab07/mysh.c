@@ -24,8 +24,8 @@ void execute(char **, char **, char **);
 
 int main(int argc, char *argv[], char *envp[])
 {
-   //pid_t pid;   // pid of child process
-   //int stat;    // return status of child
+   pid_t pid;   // pid of child process
+   int stat;    // return status of child
    char **path; // array of directory names
 
    // set up command PATH from environment variable
