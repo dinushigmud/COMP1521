@@ -35,28 +35,54 @@ everyKth:
    li   $s5, 0                # j = 0
 
 everyK_for:
-   bge  $s4, $s1, end_everyK_for
+    bge $s4, $s1, end_everyK_for
 
-   move $t0, $s4
-   mul  $t0, $t0, 4
-   add  $t0, $t0, $s0
-   lw   $t2, ($t0)             # src[i]
-   div  $s4, $s2
-   mfhi $t0                    # i%k == 0
-   bnez $t0, incr_everyK_for
+    move $t0, $s4
+    mul $t0, $t0, 4
+    add $t0, $t0, $s0
+    lw $t2, ($t0)               # src[i]
 
-   move $t0, $s5
-   mul  $t0, $t0, 4
-   add  $t0, $t0, $s3
-   sw   $t0, ($t0)             # dest[j] = src[i]
-   addi $s5, $s5, 1            # j++
+    div $s4, $s2
+    mfhi $t0                    #i%k == 0
+    bnez $t0, incr_everyK_for   
+
+    move $t0, $s5
+    mul $t0, $t0, 4
+    add $t0, $t0, $s3
+    sw $t2, ($t0) 
+    addi $s5, $s5, 1
+
 
 incr_everyK_for:
-   addi $s4, $s4, 1
-   j    everyK_for
-   
+    addi $s4, $s4, 1
+    j everyK_for
+
 end_everyK_for:
-   move $v0, $s5
+    move $v0, $s5
+
+# everyK_for:
+#    bge  $s4, $s1, end_everyK_for
+
+#    move $t0, $s4
+#    mul  $t0, $t0, 4
+#    add  $t0, $t0, $s0
+#    lw   $t2, ($t0)             # src[i]
+#    div  $s4, $s2
+#    mfhi $t0                    # i%k == 0
+#    bnez $t0, incr_everyK_for
+
+#    move $t0, $s5
+#    mul  $t0, $t0, 4
+#    add  $t0, $t0, $s3
+#    sw   $t0, ($t0)             # dest[j] = src[i]
+#    addi $s5, $s5, 1            # j++
+
+# incr_everyK_for:
+#    addi $s4, $s4, 1
+#    j    everyK_for
+   
+# end_everyK_for:
+#    move $v0, $s5
 
 # epilogue
    lw   $s5, ($sp)

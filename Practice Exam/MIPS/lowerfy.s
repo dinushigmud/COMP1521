@@ -33,38 +33,71 @@ lowerfy:
    move $s3, $0
 
 lower_loop:
-   move $t0, $s0
-   add  $t0, $t0, $s2
-   lb   $t0, ($t0)       # ch = src[i]
-   beqz $t0, end_lower_loop
+    move $t0, $s0
+    add $t0, $t0, $s2
+    lb $t0, ($t0)
+    beqz end_lower_loop
 
-   li   $t1, 'A'
-   blt  $t0, $t1, next_lower_loop
-   li   $t1, 'Z'
-   bgt  $t0, $t1, next_lower_loop
+    li $t1, 'A'
+    blt $t0, $t1, next_lower_loop
+    li $t1, 'Z'
+    bgt $t0, $t1, next_lower_loop
 
-   li   $t1, 'a'
-   add  $t0, $t0, $t1
-   li   $t1, 'A'
-   sub  $t0, $t0, $t1    # ch = ch + 'a' - 'A'
+    li $t1, 'a'
+    add $t0, $t0, $t1
+    li $t1, 'A'
+    sub $t0, $t0, $t1
 
-   addi $s3, $s3, 1      # n++
+    addi $s3, $s3, 1
 
 next_lower_loop:
-   move $t1, $s1
-   add  $t1, $t1, $s2
-   sb   $t0, ($t1)       # dest[i] = ch
+    move $t1, $s1
+    add $t1, $t1, $s2
+    sb $t0, ($t1)
 
-   add  $s2, $s2, 1      # i++
-   j    lower_loop
+    addi $s2, $s2, 1
 
 end_lower_loop:
-   move $t0, $s1
-   add  $t0, $t0, $s2
-   move $t1, $0
-   sb   $t1, ($t0)
+    move $t0, $s1
+    add $t0, $t0, $s2
+    move $t1, $0
+    sb $t1, ($t0)
 
-   move $v0, $s3         # return n
+    move $v0, $s3
+
+# lower_loop:
+#    move $t0, $s0
+#    add  $t0, $t0, $s2
+#    lb   $t0, ($t0)       # ch = src[i]
+#    beqz $t0, end_lower_loop
+
+#    li   $t1, 'A'
+#    blt  $t0, $t1, next_lower_loop
+#    li   $t1, 'Z'
+#    bgt  $t0, $t1, next_lower_loop
+
+#    li   $t1, 'a'
+#    add  $t0, $t0, $t1
+#    li   $t1, 'A'
+#    sub  $t0, $t0, $t1    # ch = ch + 'a' - 'A'
+
+#    addi $s3, $s3, 1      # n++
+
+# next_lower_loop:
+#    move $t1, $s1
+#    add  $t1, $t1, $s2
+#    sb   $t0, ($t1)       # dest[i] = ch
+
+#    add  $s2, $s2, 1      # i++
+#    j    lower_loop
+
+# end_lower_loop:
+#    move $t0, $s1
+#    add  $t0, $t0, $s2
+#    move $t1, $0
+#    sb   $t1, ($t0)
+
+#    move $v0, $s3         # return n
 
 # epilogue
    # if you saved more than two $s? registers
