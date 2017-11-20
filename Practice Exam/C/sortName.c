@@ -21,6 +21,24 @@ void sortByName(Students ss)
     } while (nswaps > 0);
 }
 
+// void sortByName(Students ss){
+    
+//     int nswaps = 0;
+//     int last = ss->nstu;
+
+//     do{
+//         nswaps = 0;
+//         for(int i = 1; i < last; i++){
+//             if(strcmp(ss->recs[i].name, ss->recs.[i-1].name) < 0){
+//                 struct _stu_rec tmp;
+//                 tmp = ss->recs[i];
+//                 ss->recs[i] = ss->recs[i-1];
+//                 ss->recs[i-1] = tmp;
+//                 nswaps++;
+//             }
+//         }
+//     } while (nswaps > 0)
+// }
 /*OR
 
 // using qsort() defined in library
